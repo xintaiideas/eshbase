@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhou.mapper.PersonMapper">
+
+    <resultMap type="com.zhou.entity.Person" id="personResult">
+        <result property="id"    column="id"    />
+        <result property="idNumber"    column="idNumber"    />
+        <result property="city"    column="city"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="birth"    column="birth"    />
+
+    </resultMap>
+
+
+    <select id="selectTop100"   resultMap="personResult">
+       select * from person where upmark=0  order by id asc limit 1000
+    </select>
+    <insert id="insertUser" useGeneratedKeys="true"		keyProperty="id" >
+        insert into person(idNumber,city,name,sex,birth) values(#{idNumber},#{city},#{name},#{sex},#{birth})
+    </insert>
+
+    <update id="updateTop100" >
+      update person set upmark=1,uptime=#{uptime} where  id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+               #{item.id, jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <update id="updateBack" >
+        update person set upmark=0 where upmark=1
+    </update>
+
+
+</mapper>

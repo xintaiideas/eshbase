@@ -1,0 +1,19 @@
+{
+  "properties": {
+
+    "id": {
+      "type":"text","index":false
+    },
+    "rowkey": {
+      "type":"text","index":false
+    },
+
+
+    "name": {
+      "type": "text",
+      "analyzer": "ik_max_word",
+      "search_analyzer": "ik_max_word"
+    }
+  }
+
+}

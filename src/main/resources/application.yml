@@ -1,0 +1,75 @@
+
+# elasticsearch.yml 文件中的 cluster.name
+logging:
+  level:
+    com.zhou.mapper: trace
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://172.19.80.60:3306/db1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false  # 正式
+        username: root
+        password: root
+           # 初始化大小，最小，最大
+        initialSize: 1
+        minIdle: 3
+        maxActive: 20
+           # 配置获取连接等待超时的时间
+        maxWait: 600
+           # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+           # 配置一个连接在池中最小生存的时间，单位是毫秒
+        minEvictableIdleTimeMillis: 30000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+           # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+           # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat,wall,slf4j
+           # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+           # 合并多个DruidDataSource的监控数据
+           #useGlobalDataSourceStat: true
+#       type: com.zaxxer.hikari.HikariDataSource
+#       driver-class-name: com.mysql.jdbc.Driver
+#       username: repl
+#       password: repl
+#       url: jdbc:mysql://192.168.1.206:3306/db1?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+#       hikari:
+#         maximum-pool-size: 30
+#         minimum-idle: 2
+
+    data:
+      elasticsearch:
+        cluster-name:  data-lakes
+        cluster-nodes: 172.19.80.60:9311
+hbase:
+  master: 172.19.80.60:60000
+  zookeeper:
+    quorum: 172.19.80.60 #多少个hbase就多少个
+    property:
+      clientPort: 2181
+zookeeper:
+  znode:
+    parent: /hbase
+mybatis-plus:
+  # MyBatis Mapper所对应的XML文件位置
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+    db-config:
+      # 主键类型 0:数据库ID自增 1.未定义 2.用户输入 3 id_worker 4.uuid 5.id_worker字符串表示
+      id-type: AUTO
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断" 这里使用枚举出错了
+      field-strategy: IGNORED
+      # 默认数据库表下划线命名
+      table-underline: true
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 8081
+
