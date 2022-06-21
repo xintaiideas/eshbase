@@ -27,7 +27,7 @@
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
         <kafka.version>2.4.0.RELEASE</kafka.version>
         <druid.version>1.0.28</druid.version>
-        <mysql.version>5.1.38</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
     </properties>
 
     <dependencies>
